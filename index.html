@@ -28,7 +28,7 @@
             border-radius: 8px;
             margin-bottom: 30px;
             position: relative;
-            gap: 8px;
+            gap: 2px;
         }
 
         .top-bar::before {
@@ -51,7 +51,7 @@
         .top-bar h1 {
             font-family: 'Bebas Neue', sans-serif;
             color: #cc0000;
-            margin: 0 0 5px 0;
+            margin: 0;
             font-size: 3.5em;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.3),
                          -2px -2px 0 #fff,
@@ -75,13 +75,13 @@
 
         .top-bar img {
             height: 70px;
-            margin-top: 5px;
+            margin-top: 0;
         }
 
         .address, .contact-info {
             color: #333;
             font-size: 1em;
-            margin-top: 5px;
+            margin-top: 0;
             text-align: center;
             padding: 8px 15px;
             background: rgba(255, 255, 255, 0.6);
@@ -115,6 +115,8 @@
             font-weight: 800;
             text-decoration: none;
             letter-spacing: 0.5px;
+            font-size: 1.1em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
         .gmt-time {
@@ -391,6 +393,22 @@
             padding: 10px;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 600;
+            animation: shudder 2s ease-in-out infinite;
+        }
+
+        @keyframes shudder {
+            0%, 100% { transform: translateX(0); }
+            10% { transform: translateX(-2px); }
+            20% { transform: translateX(2px); }
+            30% { transform: translateX(-2px); }
+            40% { transform: translateX(2px); }
+            50% { transform: translateX(-1px); }
+            60% { transform: translateX(1px); }
+            70% { transform: translateX(-1px); }
+            80% { transform: translateX(1px); }
+            90% { transform: translateX(0); }
         }
 
         .booking-form button.submit-btn {
@@ -463,18 +481,18 @@
 
             .top-bar {
                 padding: 12px;
-                gap: 6px;
+                gap: 1px;
             }
 
             .top-bar h1 {
                 font-size: 2.8em;
                 padding: 6px 15px;
-                margin: 0 0 4px 0;
+                margin: 0;
             }
 
             .top-bar img {
                 height: 60px;
-                margin-top: 4px;
+                margin-top: 0;
             }
 
             .featured-photos,
@@ -512,18 +530,18 @@
         @media (max-width: 480px) {
             .top-bar {
                 padding: 10px;
-                gap: 4px;
+                gap: 1px;
             }
 
             .top-bar h1 {
                 font-size: 2.2em;
                 padding: 5px 12px;
-                margin: 0 0 3px 0;
+                margin: 0;
             }
 
             .top-bar img {
                 height: 50px;
-                margin-top: 3px;
+                margin-top: 0;
             }
 
             .reviews-title {
@@ -705,7 +723,7 @@
         <div class="address">65 Armley Ridge Rd, Armley,<br>Leeds LS12 3LD</div>
         <div class="contact-info">
             <span class="opening-hours">Open till 7pm 7 Days A Week</span>
-            <span class="phone-number">07951 550158</span>
+            <span class="phone-number"><span style="color: #cc0000; font-size: 1.2em;">★★★</span> 07951 550158 <span style="color: #cc0000; font-size: 1.2em;">★★★</span></span>
             <span class="gmt-time" id="gmt-time"></span>
         </div>
     </div>

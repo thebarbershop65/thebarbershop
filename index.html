@@ -320,12 +320,26 @@
             font-weight: 600;
             color: #cc0000;
             text-align: center;
+            display: block;
+            margin: 0 auto;
         }
 
         .booking-form input {
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
+        }
+
+        .booking-form input[type="text"],
+        .booking-form input[type="tel"] {
+            background: #666;
+            color: white;
+            border: 1px solid #555;
+        }
+
+        .booking-form input[type="text"]::placeholder,
+        .booking-form input[type="tel"]::placeholder {
+            color: #ccc;
         }
 
         .booking-form input[type="date"] {
@@ -340,6 +354,10 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin: 0 auto;
+            display: block;
+            width: 100%;
+            max-width: 300px;
         }
 
         .booking-form input[type="date"]:focus {

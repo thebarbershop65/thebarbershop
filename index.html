@@ -117,6 +117,13 @@
             letter-spacing: 0.5px;
         }
 
+        .gmt-time {
+            color: #666;
+            font-size: 0.8em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
         .content-wrapper {
             position: relative;
             padding: 20px;
@@ -283,6 +290,99 @@
             margin-right: auto;
             position: relative;
             z-index: 1;
+        }
+
+        .booking-form {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+            padding: 20px;
+            margin-bottom: 30px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+            gap: 10px;
+        }
+
+        .booking-form h2 {
+            margin: 0 0 10px;
+            text-align: center;
+            color: #333;
+        }
+
+        .booking-form label {
+            font-weight: 600;
+            color: #cc0000;
+            text-align: center;
+        }
+
+        .booking-form input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .booking-form input[type="date"] {
+            padding: 15px;
+            font-size: 16px;
+            min-height: 50px;
+            color: #333;
+            position: relative;
+            text-align: center;
+        }
+
+        .booking-form input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            opacity: 1;
+            width: 20px;
+            height: 20px;
+        }
+
+        .booking-form button {
+            background: #cc0000;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .booking-form button.submit-btn {
+            margin-top: 10px;
+        }
+
+        .booking-form .close-btn {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #cc0000;
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            z-index: 10;
+        }
+
+        .booking-form .close-btn:hover {
+            background: #aa0000;
+        }
+
+        .booking-form select option:disabled {
+            color: #ff0000 !important;
+            font-weight: bold !important;
+            background-color: #ffe6e6 !important;
         }
 
         .qr-title {
@@ -508,6 +608,52 @@
                 aspect-ratio: 1/1;
             }
         }
+
+        #admin-panel {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+            padding: 20px;
+            margin: 0 auto 30px auto;
+            max-width: 400px;
+        }
+
+        #admin-panel table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #admin-panel th, #admin-panel td {
+            border: 1px solid #ccc;
+            padding: 4px;
+            font-size: 0.9em;
+        }
+
+        .booking-form .form-fields {
+            display: none;
+        }
+
+        .booking-form .form-fields.show {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .booking-form .time-field {
+            display: none;
+        }
+
+        .booking-form .time-field.show {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .booking-form button.submit-btn {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -518,7 +664,50 @@
         <div class="contact-info">
             <span class="opening-hours">Open till 7pm 7 Days A Week</span>
             <span class="phone-number">07951 550158</span>
+            <span class="gmt-time" id="gmt-time"></span>
         </div>
+    </div>
+
+    <div class="booking-form">
+        <button type="button" id="show-form-btn">Make a Booking</button>
+        <form id="booking-form">
+            <div class="form-fields" id="form-fields">
+                <button type="button" id="close-form-btn" class="close-btn">×</button>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" required>
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required>
+
+                <div class="time-field" id="time-field">
+                    <label for="time">Time</label>
+                    <select id="time" name="time" required>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                    <option value="18:00">18:00</option>
+                </select>
+                </div>
+                <button type="submit" class="submit-btn">Submit Booking</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="admin-panel" style="display:none;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+            <h2 style="margin: 0;">All Bookings (Admin)</h2>
+            <button id="email-bookings-btn" style="background: #cc0000; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 16px;" title="Email bookings list">
+                ✉️
+            </button>
+        </div>
+        <table id="admin-bookings"></table>
     </div>
 
     <div class="content-wrapper">
@@ -598,5 +787,400 @@
             <img src="https://raw.githubusercontent.com/thebarbershop65/thebarbershop/main/images/photo12.jpg" alt="Barber Shop Photo 12">
         </div>
     </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            getDocs,
+            deleteDoc,
+            doc,
+            query,
+            where
+        } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyBXXAPa8TujBvaOjyGawO8aQCNkuhPo0YI",
+          authDomain: "barbers-2759a.firebaseapp.com",
+          projectId: "barbers-2759a",
+          storageBucket: "barbers-2759a.firebasestorage.app",
+          messagingSenderId: "1009127595018",
+          appId: "1:1009127595018:web:7b090f514a9dd2edb3d3f3"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Test Firebase connection on page load
+        async function testFirebaseConnection() {
+            try {
+                await getDocs(query(collection(db, 'bookings'), where('date', '==', 'test')));
+                console.log('Firebase connection: OK');
+            } catch (error) {
+                console.error('Firebase connection test failed:', error);
+                if (error.code === 'permission-denied') {
+                    console.warn('Database security rules may require authentication');
+                } else if (error.code === 'unavailable') {
+                    console.warn('Firebase service temporarily unavailable');
+                } else {
+                    console.warn('Unknown Firebase error - check project configuration');
+                }
+            }
+        }
+        
+        // Test connection when page loads
+        testFirebaseConnection();
+
+        // Update GMT time and date
+        function updateGMTTime() {
+            const now = new Date();
+            const gmtTime = now.toLocaleString('en-GB', {
+                timeZone: 'GMT',
+                weekday: 'short',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('gmt-time').textContent = gmtTime + ' GMT';
+        }
+
+        // Update time immediately and then every second
+        updateGMTTime();
+        setInterval(updateGMTTime, 1000);
+
+        const ADMIN_PIN = '1234';
+
+        const phoneEl = document.querySelector('.phone-number');
+        let tapCount = 0;
+        let tapTimer;
+        phoneEl.addEventListener('click', () => {
+            tapCount++;
+            clearTimeout(tapTimer);
+            tapTimer = setTimeout(() => tapCount = 0, 1000);
+            if (tapCount === 10) {
+                tapCount = 0;
+                const pin = prompt('Admin PIN');
+                if (pin === ADMIN_PIN) {
+                    document.getElementById('admin-panel').style.display = 'block';
+                    loadAdminBookings();
+                }
+            }
+        });
+
+        // Add this new code for showing the form
+        document.getElementById('show-form-btn').addEventListener('click', function() {
+            document.getElementById('form-fields').classList.add('show');
+            this.style.display = 'none';
+        });
+
+        // Add close button functionality
+        document.getElementById('close-form-btn').addEventListener('click', function() {
+            document.getElementById('form-fields').classList.remove('show');
+            document.getElementById('show-form-btn').style.display = 'block';
+            document.getElementById('time-field').classList.remove('show');
+        });
+
+        function addOneHour(t) {
+            const [h, m] = t.split(':').map(Number);
+            return String(h + 1).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+        }
+
+        const dateInput = document.getElementById('date');
+        const timeSelect = document.getElementById('time');
+        
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
+        
+        // Store all available times
+        const allTimes = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+
+        dateInput.addEventListener('change', updateAvailableTimes);
+        
+        // Refresh availability every 30 seconds when a date is selected
+        // This helps when multiple people are booking simultaneously
+        let refreshInterval;
+        function startAvailabilityRefresh() {
+            if (refreshInterval) clearInterval(refreshInterval);
+            if (dateInput.value) {
+                refreshInterval = setInterval(() => {
+                    if (dateInput.value && document.visibilityState === 'visible') {
+                        updateAvailableTimes();
+                    }
+                }, 30000); // Refresh every 30 seconds
+            }
+        }
+        
+        function stopAvailabilityRefresh() {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+                refreshInterval = null;
+            }
+        }
+        
+        // Start refresh when date selected, stop when page hidden
+        dateInput.addEventListener('change', startAvailabilityRefresh);
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                stopAvailabilityRefresh();
+            } else if (dateInput.value) {
+                startAvailabilityRefresh();
+            }
+        });
+
+        async function updateAvailableTimes() {
+            const selectedDate = dateInput.value;
+            const timeField = document.getElementById('time-field');
+            
+            if (!selectedDate) {
+                // If no date selected, hide time field
+                timeField.classList.remove('show');
+                timeSelect.innerHTML = '<option value="">Select a time</option>';
+                timeSelect.disabled = false;
+                return;
+            }
+            
+            // Show time field since date is selected
+            timeField.classList.add('show');
+            
+            // Show loading state
+            timeSelect.innerHTML = '<option value="">Loading available times...</option>';
+            timeSelect.disabled = true;
+            
+            try {
+                // Get booked times for selected date
+                const snap = await getDocs(query(collection(db, 'bookings'), where('date', '==', selectedDate)));
+                const bookedTimes = [];
+                snap.forEach(s => {
+                    const d = s.data();
+                    bookedTimes.push(d.startTime);
+                });
+                
+                // Clear loading and set default option
+                timeSelect.innerHTML = '<option value="">Select a time</option>';
+                
+                // Add ALL times to dropdown, but disable and highlight booked ones
+                allTimes.forEach(time => {
+                    const option = document.createElement('option');
+                    option.value = time;
+                    
+                    if (bookedTimes.includes(time)) {
+                        // Time is booked - disable and mark as unavailable
+                        option.disabled = true;
+                        option.textContent = time + ' (BOOKED)';
+                        option.style.color = 'red';
+                        option.style.fontWeight = 'bold';
+                    } else {
+                        // Time is available
+                        option.textContent = time;
+                    }
+                    
+                    timeSelect.appendChild(option);
+                });
+                
+                timeSelect.disabled = false;
+                
+            } catch (error) {
+                console.error('Firebase connection error:', error);
+                // Show all times if Firebase is down
+                timeSelect.innerHTML = '<option value="">Select a time</option>';
+                allTimes.forEach(time => {
+                    const option = document.createElement('option');
+                    option.value = time;
+                    option.textContent = time + ' (availability unknown)';
+                    timeSelect.appendChild(option);
+                });
+                timeSelect.disabled = false;
+            }
+        }
+
+        const form = document.getElementById('booking-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const date = form.date.value;
+            const time = form.time.value;
+            const name = form.name.value.trim();
+            const phone = form.phone.value.trim();
+
+            // Validate form data
+            if (!name) {
+                alert('Please enter your name');
+                return;
+            }
+            
+            // Validate phone number (UK format)
+            const phoneRegex = /^(\+44|0)[1-9]\d{8,10}$/;
+            if (!phone) {
+                alert('Please enter your phone number');
+                return;
+            }
+            if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+                alert('Please enter a valid UK phone number (e.g., 07123456789 or +447123456789)');
+                return;
+            }
+            
+            if (!date) {
+                alert('Please select a date');
+                return;
+            }
+            
+            // Validate date is not in the past
+            const selectedDate = new Date(date);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (selectedDate < today) {
+                alert('Please select a date that is today or in the future');
+                return;
+            }
+            
+            if (!time) {
+                alert('Please select an available time');
+                return;
+            }
+            
+            // Validate time is not in the past (if date is today)
+            const selectedDateTime = new Date(date + 'T' + time);
+            const now = new Date();
+            
+            if (selectedDateTime < now) {
+                alert('Please select a time that is in the future');
+                return;
+            }
+
+            try {
+                // Double-check for conflicts right before booking
+                const conflictCheck = await getDocs(query(
+                    collection(db, 'bookings'), 
+                    where('date', '==', date), 
+                    where('startTime', '==', time)
+                ));
+                
+                if (!conflictCheck.empty) {
+                    alert('Sorry, this time slot was just booked by someone else. Please select another time.');
+                    // Refresh available times
+                    await updateAvailableTimes();
+                    return;
+                }
+
+                const data = {
+                    name: name,
+                    phone: phone,
+                    date: date,
+                    startTime: time,
+                    endTime: addOneHour(time),
+                    createdAt: Date.now()
+                };
+                
+                // Attempt to save the booking
+                await addDoc(collection(db, 'bookings'), data);
+                
+                alert('Booked !');
+                
+                // Reset form and hide it properly
+                form.reset();
+                document.getElementById('form-fields').classList.remove('show');
+                document.getElementById('show-form-btn').style.display = 'block';
+                document.getElementById('time-field').classList.remove('show');
+                
+                // Refresh the time slots to show the new booking is taken
+                await updateAvailableTimes();
+                
+            } catch (err) {
+                console.error('Firebase error:', err);
+                if (err.code === 'permission-denied') {
+                    alert('Database access denied. Please contact the administrator.');
+                } else if (err.code === 'unavailable') {
+                    alert('Database temporarily unavailable. Please try again later.');
+                } else if (err.code === 'already-exists') {
+                    alert('This time slot is already booked. Please select another time.');
+                    await updateAvailableTimes();
+                } else {
+                    alert('Failed to save booking. Please try again or call us directly.');
+                }
+            }
+        });
+
+        async function loadAdminBookings() {
+            const table = document.getElementById('admin-bookings');
+            table.innerHTML = '<tr><th>Date</th><th>Time</th><th>Name</th><th>Phone</th><th></th></tr>';
+            try {
+                const snap = await getDocs(collection(db, 'bookings'));
+                snap.forEach(s => {
+                    const d = s.data();
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${d.date}</td><td>${d.startTime}</td><td>${d.name}</td><td>${d.phone}</td><td><button data-id="${s.id}">Delete</button></td>`;
+                    table.appendChild(tr);
+                });
+                table.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        try {
+                            await deleteDoc(doc(db, 'bookings', btn.dataset.id));
+                            loadAdminBookings();
+                        } catch (error) {
+                            console.error('Delete error:', error);
+                            alert('Failed to delete booking');
+                        }
+                    });
+                });
+            } catch (error) {
+                console.error('Load bookings error:', error);
+                const tr = document.createElement('tr');
+                tr.innerHTML = '<td colspan="5">Unable to load bookings - Database connection error</td>';
+                table.appendChild(tr);
+            }
+        }
+
+        // Email bookings functionality
+        document.getElementById('email-bookings-btn').addEventListener('click', async () => {
+            try {
+                const snap = await getDocs(collection(db, 'bookings'));
+                let bookingsList = 'The Barber Shop - Bookings List\n\n';
+                
+                if (snap.empty) {
+                    bookingsList += 'No bookings found.\n';
+                } else {
+                    bookingsList += 'Date\t\tTime\t\tName\t\tPhone\n';
+                    bookingsList += '='.repeat(60) + '\n';
+                    
+                    // Sort bookings by date and time
+                    const bookings = [];
+                    snap.forEach(s => {
+                        const d = s.data();
+                        bookings.push(d);
+                    });
+                    
+                    bookings.sort((a, b) => {
+                        const dateA = new Date(a.date + 'T' + a.startTime);
+                        const dateB = new Date(b.date + 'T' + b.startTime);
+                        return dateA - dateB;
+                    });
+                    
+                    bookings.forEach(booking => {
+                        bookingsList += `${booking.date}\t${booking.startTime}\t${booking.name}\t${booking.phone}\n`;
+                    });
+                }
+                
+                bookingsList += '\n\nGenerated on: ' + new Date().toLocaleString();
+                
+                // Create mailto link
+                const subject = encodeURIComponent('The Barber Shop - Bookings List');
+                const body = encodeURIComponent(bookingsList);
+                const mailtoLink = `mailto:admin@thebarbershop.com?subject=${subject}&body=${body}`;
+                
+                // Open email client
+                window.location.href = mailtoLink;
+                
+            } catch (error) {
+                console.error('Email bookings error:', error);
+                alert('Failed to generate bookings email. Please try again.');
+            }
+        });
+    </script>
 </body>
-</html> 
+</html>

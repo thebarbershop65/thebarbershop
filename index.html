@@ -79,6 +79,15 @@
         .top-bar img {
             height: 70px;
             margin-top: 0;
+            cursor: pointer;
+            -webkit-tap-highlight-color: rgba(204, 0, 0, 0.2);
+            touch-action: manipulation;
+            transition: transform 0.2s ease;
+        }
+
+        .top-bar img:hover {
+            -webkit-transform: scale(1.05);
+            transform: scale(1.05);
         }
 
         .address, .contact-info {
@@ -982,9 +991,13 @@
         const ADMIN_PIN = '1234';
 
         const phoneEl = document.querySelector('.phone-number');
+        const shopLogo = document.querySelector('.top-bar img');
         let tapCount = 0;
         let tapTimer;
         let lastTapTime = 0;
+        let logoTapCount = 0;
+        let logoTapTimer;
+        let lastLogoTapTime = 0;
         
         function handleTap() {
             const currentTime = new Date().getTime();
@@ -1014,6 +1027,35 @@
                 }
             }
         }
+
+        function handleLogoTap() {
+            const currentTime = new Date().getTime();
+            const timeDiff = currentTime - lastLogoTapTime;
+            
+            // Reset if too much time has passed
+            if (timeDiff > 1000) {
+                logoTapCount = 0;
+            }
+            
+            logoTapCount++;
+            lastLogoTapTime = currentTime;
+            
+            clearTimeout(logoTapTimer);
+            logoTapTimer = setTimeout(() => {
+                logoTapCount = 0;
+                lastLogoTapTime = 0;
+            }, 1000);
+            
+            if (logoTapCount === 2) {
+                logoTapCount = 0;
+                lastLogoTapTime = 0;
+                const pin = prompt('Admin PIN');
+                if (pin === ADMIN_PIN) {
+                    document.getElementById('admin-panel').style.display = 'block';
+                    loadAdminBookings();
+                }
+            }
+        }
         
         function handleTouch(e) {
             e.preventDefault();
@@ -1026,12 +1068,30 @@
             e.stopPropagation();
             handleTap();
         }
+
+        function handleLogoClick(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            handleLogoTap();
+        }
+
+        function handleLogoTouch(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            handleLogoTap();
+        }
         
         // Add multiple event listeners for maximum mobile compatibility
         phoneEl.addEventListener('click', handleClick);
         phoneEl.addEventListener('touchstart', handleTouch, { passive: false });
         phoneEl.addEventListener('touchend', handleTouch, { passive: false });
         phoneEl.addEventListener('mousedown', handleClick);
+        
+        // Add event listeners for the shop logo
+        shopLogo.addEventListener('click', handleLogoClick);
+        shopLogo.addEventListener('touchstart', handleLogoTouch, { passive: false });
+        shopLogo.addEventListener('touchend', handleLogoTouch, { passive: false });
+        shopLogo.addEventListener('mousedown', handleLogoClick);
 
         // Add this new code for showing the form
         document.getElementById('show-form-btn').addEventListener('click', function() {

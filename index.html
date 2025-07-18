@@ -9,7 +9,7 @@
         body {
             margin: 0;
             padding: 10px;
-            background: linear-gradient(to bottom, #e5e5e5, #b0b0b0);
+            background: linear-gradient(to bottom, #c0c0c0, #808080);
             min-height: 100vh;
             font-family: Arial, sans-serif;
         }
@@ -875,11 +875,11 @@
         // Test connection when page loads
         testFirebaseConnection();
 
-        // Update GMT time and date
+        // Update UK time and date
         function updateGMTTime() {
             const now = new Date();
-            const gmtTime = now.toLocaleString('en-GB', {
-                timeZone: 'GMT',
+            const ukTime = now.toLocaleString('en-GB', {
+                timeZone: 'Europe/London',
                 weekday: 'short',
                 day: '2-digit',
                 month: '2-digit',
@@ -888,7 +888,14 @@
                 minute: '2-digit',
                 second: '2-digit'
             });
-            document.getElementById('gmt-time').textContent = gmtTime + ' GMT';
+            
+            // Determine if we're in BST or GMT
+            const timeZoneName = now.toLocaleString('en-GB', {
+                timeZone: 'Europe/London',
+                timeZoneName: 'short'
+            }).split(' ').pop();
+            
+            document.getElementById('gmt-time').textContent = ukTime + ' ' + timeZoneName;
         }
 
         // Update time immediately and then every second
